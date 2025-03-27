@@ -1,11 +1,30 @@
 import axios from 'axios';
 
-// 백엔드 API 기본 URL 설정
-const API_BASE_URL = "http://localhost:8000/api";
+// 동적으로 API URL 결정하는 함수
+const getApiBaseUrl = () => {
+  // 브라우저 환경에서만 실행
+  if (typeof window !== 'undefined') {
+    // 환경 변수가 있으면 그대로 사용, 없으면 현재 호스트 기반으로 동적 생성
+    if (process.env.REACT_APP_API_BASE_URL) {
+      return process.env.REACT_APP_API_BASE_URL;
+    }
+    
+    // 브라우저의 현재 URL에서 호스트 부분만 가져와서 사용
+    const currentHost = window.location.hostname;
+    return `http://${currentHost}:8000/api`;
+  }
+  
+  // 기본값 (개발 환경)
+  return 'http://localhost:8000/api';
+};
+
+// API URL 결정
+const apiUrl = getApiBaseUrl();
+console.log('Using API URL:', apiUrl);
 
 // axios 인스턴스 생성
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: apiUrl,
   headers: {
     "Content-Type": "application/json",
   },
@@ -58,7 +77,7 @@ api.interceptors.response.use(
         }
         
         // 리프레시 토큰으로 새 액세스 토큰 요청
-        const response = await axios.post(`${API_BASE_URL}/auth/refresh`, {
+        const response = await axios.post(`${apiUrl}/auth/refresh`, {
           refreshToken
         });
         
@@ -110,7 +129,7 @@ export const updateMemberInfo = async (userData) => {
 
 // 비밀번호 찾기 API 호출 (이메일과 닉네임으로 임시 비밀번호 발급)
 export const findPassword = async (email, nickname) => {
-  return axios.post(`${API_BASE_URL}/auth/find/password`, 
+  return axios.post(`${apiUrl}/auth/find/password`, 
     { email, nickname },
     { headers: { 'Content-Type': 'application/json' } }
   );
@@ -150,7 +169,7 @@ export const naverLogin = async (code, state) => {
 export const getNotices = async () => {
   // 캐싱 방지를 위한 타임스탬프 추가
   const timestamp = new Date().getTime();
-  return axios.get(`${API_BASE_URL}/notice?_=${timestamp}`); // 인증 없이 접근 가능하도록 api 대신 axios 사용
+  return api.get(`${apiUrl}/notice?_=${timestamp}`); // 인증 없이 접근 가능하도록 api 대신 axios 사용
 };
 
 export const getNoticeById = async (id) => {
@@ -336,27 +355,27 @@ export const deleteNotice = async (id) => {
 export const getFileDownloadUrl = (noticeId, fileName) => {
   // fileName이 null이거나 undefined인 경우 처리
   if (!fileName) return '';
-  return `${API_BASE_URL}/notice/attachment/${noticeId}/${encodeURIComponent(fileName)}`;
+  return `${apiUrl}/notice/attachment/${noticeId}/${encodeURIComponent(fileName)}`;
 };
 
 export const getImageUrl = (imagePath) => {
   // imagePath가 null이거나 undefined인 경우 처리
   if (!imagePath) return '';
-  return `${API_BASE_URL}/notice/image/${imagePath}`;
+  return `${apiUrl}/notice/image/${imagePath}`;
 };
 
 // 제품 관련 API
 export const getProducts = () => {
   // 캐싱 방지를 위한 타임스탬프 추가
   const timestamp = new Date().getTime();
-  return axios.get(`${API_BASE_URL}/products?_=${timestamp}`);
+  return axios.get(`${apiUrl}/products?_=${timestamp}`);
 };
 
 export const getRecommendations = (keyword) => {
   const encodedKeyword = encodeURIComponent(keyword);
   // 캐싱 방지를 위한 타임스탬프 추가
   const timestamp = new Date().getTime();
-  return axios.get(`${API_BASE_URL}/recommend?keyword=${encodedKeyword}&_=${timestamp}`);
+  return axios.get(`${apiUrl}/recommend?keyword=${encodedKeyword}&_=${timestamp}`);
 };
 
 //📛📛리뷰 관련 추가

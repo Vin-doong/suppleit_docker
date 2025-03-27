@@ -125,7 +125,7 @@ public class SecurityConfig {
         corsConfig.setAllowCredentials(true);  // 인증 정보(쿠키, 세션) 포함 허용
         corsConfig.addAllowedHeader("*");  // 모든 HTTP 헤더 허용
         corsConfig.addAllowedMethod("*");  // 모든 HTTP 메서드 허용
-        corsConfig.setAllowedOriginPatterns(List.of("http://localhost:3000", "http://localhost:5000"));  // ✅ 특정 도메인만 허용 (보안 강화)
+        corsConfig.setAllowedOriginPatterns(List.of("*")); // ✅ 특정 도메인만 허용 (보안 강화) -> 모든 도메인 허용으로 변경
         corsConfig.addExposedHeader("Authorization");  // 클라이언트에서 Authorization 헤더 접근 가능
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
