@@ -19,7 +19,7 @@ const NaverCallback = () => {
         }
 
         // 백엔드로 코드만 전송
-        const response = await axios.post('http://localhost:8000/api/social/login/naver', {
+        const response = await axios.post('/api/social/login/naver', {
           code: code
         });
 

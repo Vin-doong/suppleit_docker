@@ -16,7 +16,7 @@ const NoticeBoard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isAdmin, setIsAdmin] = useState(false);
   const itemsPerPage = 10;
-  const apiBaseUrl = "http://localhost:8000/api";
+  const apiBaseUrl = "/api";
 
   // 날짜 포맷 함수
   const formatDate = (dateString) => {
@@ -36,7 +36,7 @@ const NoticeBoard = () => {
         setLoading(true);
         // 캐시 방지를 위한 타임스탬프 추가
         const timestamp = new Date().getTime();
-        const response = await axios.get(`${apiBaseUrl}/notice?_=${timestamp}`);
+        const response = await axios.get(`/api/notice?_=${timestamp}`);
         
         console.log("공지사항 API 응답:", response.data);
         setNotices(response.data || []);

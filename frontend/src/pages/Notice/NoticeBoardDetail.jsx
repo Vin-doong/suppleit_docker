@@ -13,7 +13,7 @@ const NoticeBoardDetail = () => {
   const [error, setError] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
-  const apiBaseUrl = "http://localhost:8000/api";
+  const apiBaseUrl = "/api";
 
   useEffect(() => {
     // NoticeBoardDetail.jsx - fetchNotice 함수 수정

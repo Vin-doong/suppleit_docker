@@ -287,6 +287,8 @@ const UpdateProfile = () => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
         localStorage.removeItem("role");
+        localStorage.removeItem('email');
+        localStorage.removeItem('memberId');
         
         alert("회원 탈퇴가 완료되었습니다.");
         

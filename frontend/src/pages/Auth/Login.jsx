@@ -23,7 +23,7 @@ const Login = () => {
       console.log("로그인 시도:", email, password);
 
       // 백엔드 API 호출
-      const response = await axios.post('http://localhost:8000/api/auth/login', {
+      const response = await axios.post('/api/auth/login', {
         email,
         password
       });
@@ -77,7 +77,7 @@ const Login = () => {
       
       // 구글 OAuth URL로 리디렉션
       const clientId = '286893397263-o0opr0c1et57me60o8sq5ccdf836js75.apps.googleusercontent.com';
-      const redirectUri = encodeURIComponent('http://localhost:3000/callback/google');
+      const redirectUri = encodeURIComponent('http://localhost/callback/google');
       const scope = encodeURIComponent('email profile');
       const authUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`;
       
@@ -97,7 +97,7 @@ const Login = () => {
       
       // 네이버 OAuth URL로 리디렉션
       const clientId = 'M_qS71BqoG7oESo3_thQ';
-      const redirectUri = encodeURIComponent('http://localhost:3000/callback/naver');
+      const redirectUri = encodeURIComponent('http://localhost/callback/naver');
       const state = [...Array(30)].map(() => (~~(Math.random() * 36)).toString(36)).join('');
       
       // CSRF 보호를 위해 state 저장

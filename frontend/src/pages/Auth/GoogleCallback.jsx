@@ -25,7 +25,7 @@ const GoogleCallback = () => {
 
         // 백엔드를 통해 코드를 토큰으로 교환 - 응답 세부 정보 확인
         console.log("백엔드 API 요청 시작 - 코드:", code.substring(0, 10) + "...");
-        const response = await axios.post('http://localhost:8000/api/social/login/google', {
+        const response = await axios.post('/api/social/login/google', {
           code: code
         });
 

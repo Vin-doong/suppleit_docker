@@ -15,11 +15,11 @@ const getApiBaseUrl = () => {
   }
   
   // 기본값 (개발 환경)
-  return 'http://localhost:8000/api';
+  return '/api';
 };
 
 // API URL 결정
-const apiUrl = getApiBaseUrl();
+const apiUrl = '/api';
 console.log('Using API URL:', apiUrl);
 
 // axios 인스턴스 생성

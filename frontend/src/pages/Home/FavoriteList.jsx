@@ -34,7 +34,7 @@ const FavoriteList = () => {
       setLoading(true);
       const token = localStorage.getItem('accessToken');
       
-      const response = await axios.get('http://localhost:8000/api/favorites', {
+      const response = await axios.get('/api/favorites', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -54,7 +54,7 @@ const FavoriteList = () => {
     try {
       const token = localStorage.getItem('accessToken');
       
-      await axios.delete(`http://localhost:8000/api/favorites/${prdId}`, {
+      await axios.delete(`/api/favorites/${prdId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

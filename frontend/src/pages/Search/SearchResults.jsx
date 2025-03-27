@@ -62,7 +62,7 @@ const SearchResults = () => {
       const token = localStorage.getItem('accessToken');
       if (!token) return;
 
-      const response = await axios.get('http://localhost:8000/api/favorites', {
+      const response = await axios.get('/api/favorites', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -93,14 +93,14 @@ const SearchResults = () => {
 
       if (isFavorite) {
         // 즐겨찾기 삭제
-        await axios.delete(`http://localhost:8000/api/favorites/${product.prdId}`, {
+        await axios.delete(`/api/favorites/${product.prdId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
       } else {
         // 즐겨찾기 추가
-        await axios.post('http://localhost:8000/api/favorites', {
+        await axios.post('/api/favorites', {
           prdId: product.prdId,
           productName: product.productName,
           companyName: product.companyName,

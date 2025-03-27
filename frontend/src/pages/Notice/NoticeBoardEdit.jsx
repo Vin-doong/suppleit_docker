@@ -195,7 +195,7 @@ const NoticeBoardEdit = () => {
   const imageUrl = previewImage ? 
     previewImage : 
     (notice?.imagePath && !removeExistingImage ? 
-      `http://localhost:8000/api/notice/image/${notice.imagePath}` : 
+      `/api/notice/image/${notice.imagePath}` : 
       null);
 
   return (
@@ -282,7 +282,7 @@ const NoticeBoardEdit = () => {
               <Form.Label>현재 첨부파일</Form.Label>
               <div className="d-flex align-items-center">
                 <a 
-                  href={`http://localhost:8000/api/notice/attachment/${notice.noticeId}/${encodeURIComponent(notice.attachmentName)}`}
+                  href={`/api/notice/attachment/${notice.noticeId}/${encodeURIComponent(notice.attachmentName)}`}
                   className="text-primary me-2" 
                   target="_blank" 
                   rel="noopener noreferrer"
