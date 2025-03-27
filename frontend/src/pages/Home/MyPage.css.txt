@@ -1,0 +1,14 @@
+/* 글씨 애니메이션 */
+.sidebar-text {
+ transition: opacity 0.3s ease, visibility 0s 0.3s; /* opacity는 0.3초 동안 애니메이션, visibility는 0.3초 지연 후 변경 */
+}
+
+.sidebar-hidden {
+ opacity: 0; /* 사라짐 */
+ visibility: hidden; /* 요소를 아예 숨김 */
+}
+
+.sidebar-visible {
+ opacity: 1; /* 보임 */
+ visibility: visible; /* 요소가 보이도록 설정 */
+}

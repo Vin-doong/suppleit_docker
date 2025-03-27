@@ -1,0 +1,39 @@
+/* 글씨 애니메이션 */
+.sidebar-text {
+ transition: opacity 0.3s ease, visibility 0s 0.3s; /* opacity는 0.3초 동안 애니메이션, visibility는 0.3초 지연 후 변경 */
+}
+
+.sidebar-hidden {
+ opacity: 0; /* 사라짐 */
+ visibility: hidden; /* 요소를 아예 숨김 */
+}
+
+.sidebar-visible {
+ opacity: 1; /* 보임 */
+ visibility: visible; /* 요소가 보이도록 설정 */
+}
+/* styles.css */
+.react-calendar {
+ font-family: 'Noto Sans KR', sans-serif;
+}
+
+.react-calendar__tile {
+ border-radius: 8px;
+ transition: background-color 0.3s ease;
+}
+
+.react-calendar__tile--now {
+ background-color: #f0f8ff;
+}
+
+.react-calendar__tile--has-events {
+ background-color: #e0e0e0;
+}
+
+.react-calendar__event {
+ background-color: #2196f3;
+ color: white;
+ padding: 5px;
+ border-radius: 4px;
+ margin-bottom: 5px;
+}

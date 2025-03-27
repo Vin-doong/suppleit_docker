@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: abcd1234
+      MYSQL_DATABASE: suppleit
+    ports:
+      - "3307:3306"
+    volumes:
+    - ./db/suppleit.sql:/docker-entrypoint-initdb.d/suppleit.sql
+    - ./custom.cnf:/etc/mysql/conf.d/custom.cnf
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pabcd1234"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  flask:
+    build: ./flask
+    container_name: flask-server
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  backend:
+    build: ./backend
+    container_name: spring-backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      db :
+        condition: service_healthy
+    networks:
+      - app-network
+
+  frontend:
+    build: ./frontend
+    container_name: react-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+      - flask
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
