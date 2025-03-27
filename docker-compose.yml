@@ -5,46 +5,69 @@ services:
     image: mysql:8.0
     container_name: mysql-db
     restart: always
+    command: --lower-case-table-names=1 --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     environment:
       MYSQL_ROOT_PASSWORD: abcd1234
       MYSQL_DATABASE: suppleit
     ports:
       - "3307:3306"
     volumes:
-    - ./db/suppleit.sql:/docker-entrypoint-initdb.d/suppleit.sql
-    - ./custom.cnf:/etc/mysql/conf.d/custom.cnf
+      - ./db/suppleit.sql:/docker-entrypoint-initdb.d/suppleit.sql
+      - ./custom.cnf:/etc/mysql/conf.d/custom.cnf
+      - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pabcd1234"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pabcd1234"]
       interval: 10s
       timeout: 5s
       retries: 5
-    networks:
-      - app-network
-
-  flask:
-    build: ./flask
-    container_name: flask-server
-    ports:
-      - "5000:5000"
-    depends_on:
-      - db
+      start_period: 40s
     networks:
       - app-network
 
   backend:
     build: ./backend
     container_name: spring-backend
+    restart: on-failure
     ports:
       - "8000:8000"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/suppleit?useSSL=false&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=abcd1234
+      - FLASK_API_URL=http://flask-server:5000/
     depends_on:
-      db :
+      db:
+        condition: service_healthy
+      flask:
+        condition: service_started
+    networks:
+      - app-network
+
+  flask:
+    build: ./flask
+    container_name: flask-server
+    restart: on-failure
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_HOST=0.0.0.0
+      - FLASK_PORT=5000
+    depends_on:
+      db:
         condition: service_healthy
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
 
   frontend:
     build: ./frontend
     container_name: react-frontend
+    restart: on-failure
     ports:
       - "3000:3000"
     depends_on:
@@ -56,3 +79,6 @@ services:
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  mysql_data:

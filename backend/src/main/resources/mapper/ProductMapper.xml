@@ -47,7 +47,7 @@
     
     <!-- 제품 추가 기능 구현 예정--> 
     <!-- <insert id="insertProduct">
-        INSERT INTO Product (
+        INSERT INTO product (
             prd_id, product_name, company_name, registration_no, 
             expiration_period, srv_use, main_function, preservation, 
             intake_hint, base_standard
