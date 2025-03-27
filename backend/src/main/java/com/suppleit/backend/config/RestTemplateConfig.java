@@ -12,8 +12,8 @@ public class RestTemplateConfig {
     @Bean
     public RestTemplate restTemplate() {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-        factory.setConnectTimeout(5000); // 5초 연결 타임아웃
-        factory.setReadTimeout(10000);   // 10초 읽기 타임아웃
+        factory.setConnectTimeout(1000); // 10초 연결 타임아웃
+        factory.setReadTimeout(15000);   // 15초 읽기 타임아웃
         
         // BufferingClientHttpRequestFactory로 래핑하여 응답을 여러 번 읽을 수 있도록 함
         BufferingClientHttpRequestFactory bufferingFactory = new BufferingClientHttpRequestFactory(factory);

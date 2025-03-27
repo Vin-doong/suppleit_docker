@@ -98,8 +98,11 @@ public class SocialLoginService {
             tokenRequest.add("code", code);
             tokenRequest.add("client_id", googleClientId);
             tokenRequest.add("client_secret", googleClientSecret);
-            tokenRequest.add("redirect_uri", "http://localhost:3000/callback/google");
+            tokenRequest.add("redirect_uri", "http://localhost/callback/google");
             tokenRequest.add("grant_type", "authorization_code");
+
+            log.info("구글 클라이언트 ID: {}", googleClientId);
+            log.info("리디렉션 URI: http://localhost/callback/google");
             
             HttpEntity<MultiValueMap<String, String>> tokenEntity = new HttpEntity<>(tokenRequest, tokenHeaders);
             

@@ -38,7 +38,7 @@ const Login = () => {
 
         // 사용자 정보 요청 및 역할 저장
         try {
-          const userInfoResponse = await axios.get('http://localhost:8000/api/member/info', {
+          const userInfoResponse = await axios.get('/api/member/info', {
             headers: {
               'Authorization': `Bearer ${response.data.accessToken}`
             }
